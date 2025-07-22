@@ -1,0 +1,38 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Handles the creation of table `{{%backgrountask}}`.
+ */
+class m250722_171651_create_backgrountask_table extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+        $this->createTable('{{%backgrountask}}', [
+            'id' => $this->primaryKey(),
+            'action' => $this->string(350)->notNull(),
+            'id_user' => $this->integer(11)->notNull(),
+            'progress' => $this->integer(2),
+            'params' => $this->text(),  
+            'output' => $this->text(),
+            'log' => $this->text(),  
+            'stato' => $this->integer(1),  
+        ], $tableOptions);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        $this->dropTable('{{%backgrountask}}');
+    }
+}

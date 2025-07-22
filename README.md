@@ -28,7 +28,7 @@ yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgrountask/migrations
 Può essere creato manualmente. Vale a dire, la tabella `backgrountask` campi:
 
 id(primaryKey, AUTO_INCREMENT);
-action(varchar(50));
+action(varchar(350));
 id_user(int(11));
 progress(int(2));
 params(text);
