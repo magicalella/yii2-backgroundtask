@@ -5,7 +5,7 @@
  * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php)
  */
 
-namespace magicalella\exporttask;
+namespace magicalella\backgrountask;
 
 use yii\base\Exception;
 use yii\base\BaseObject;
@@ -17,7 +17,7 @@ use yii\helpers\FileHelper;
  * Example:
  *
  * ```php
- * use magicalella\exporttask\CsvFile;
+ * use magicalella\backgrountask\CsvFile;
  *
  * $csvFile = new CsvFile(['name' => '/path/to/file.csv']);
  * foreach (Item::find()->all() as $item) {
