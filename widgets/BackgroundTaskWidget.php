@@ -1,5 +1,5 @@
 <?php
-namespace magicalella\backgrountask\widgets;
+namespace magicalella\backgroundtask\widgets;
 
 use Yii;
 use yii\base\InvalidConfigException;

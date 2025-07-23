@@ -8,7 +8,7 @@ use magicalella\backgroundtask\Backgroundtask;
 /* @var $model magicalella\backgroundtask\Backgroundtask */
 /* @var $form yii\widgets\ActiveForm */
 
-$model = new Backgrountask();
+$model = new Backgroundtask();
 
 ?>
 

@@ -3,17 +3,17 @@
 * @author    Raffaella Lollini <raffaella@kattivamente.it>
 * @copyright 2023 Raffaella Lollini
 */
-namespace magicalella\backgrountask;
+namespace magicalella\backgroundtask;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use magicalella\backgrountask\Backgrountask;
+use magicalella\backgroundtask\Backgroundtask;
 
 /**
- * ExporttaskSearch represents the model behind the search form of `common\models\backgrountask`.
+ * ExporttaskSearch represents the model behind the search form of `common\models\backgroundtask`.
  */
-class BackgrountaskSearch extends Backgrountask
+class BackgroundtaskSearch extends Backgroundtask
 {
     /**
      * {@inheritdoc}
@@ -44,7 +44,7 @@ class BackgrountaskSearch extends Backgrountask
      */
     public function search($params)
     {
-        $query = Backgrountask::find();
+        $query = Backgroundtask::find();
 
         // add conditions that should always apply here
 

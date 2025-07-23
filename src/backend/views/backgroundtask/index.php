@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Progress;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use magicalella\backgrountask\Backgrountask;
+use magicalella\backgroundtask\Backgroundtask;
 use yii\helpers\Url;
 use mdm\admin\components\Helper;
 
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$("#progress"+id+" .progress-bar").css('width', result+'%').attr('aria-valuenow', result);
 			    } else {
 			    	$("#progress"+id).html(result);
-			    	$("#stato"+id).html("<?= Backgrountask::STATI[2];  ?>");
+			    	$("#stato"+id).html("<?= Backgroundtask::STATI[2];  ?>");
 			    }
 			},
 		});
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute'=>'stato',
 				'format'=>'raw',
 				'value' => function ($model){
-					return '<div id="stato'.$model->id.'" >'.Backgrountask::STATI[$model->stato].'</div>';
+					return '<div id="stato'.$model->id.'" >'.Backgroundtask::STATI[$model->stato].'</div>';
 				},
 			],
 //             'stato',
