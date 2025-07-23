@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use magicalella\backgrountask\backgrountask;
-use magicalella\backgrountask\ExporttaskSearch;
+use magicalella\backgroundtask\backgroundtask;
+use magicalella\backgroundtask\ExporttaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,7 +68,7 @@ class ExporttaskController extends Controller
     public function actionReload($id)
     {
         $model = $this->findModel($id);
-		$model->stato=Backgrountask::STATUS_NEW;	
+		$model->stato=Backgroundtask::STATUS_NEW;	
 		$model->save();
         $model->exec_task();
 
@@ -76,18 +76,18 @@ class ExporttaskController extends Controller
     }
 
     /**
-     * Creates a new backgrountask model.
+     * Creates a new backgroundtask model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreatetask()
     {
 		$post=Yii::$app->request->post();
-        $model = new backgrountask();
+        $model = new backgroundtask();
         if ($model->load(Yii::$app->request->post())){
             $model->id_user = Yii::$app->user->identity->id;
             $model->progress = 0;
-            $model->stato = Backgrountask::STATUS_NEW;	
+            $model->stato = Backgroundtask::STATUS_NEW;	
             $model->save();
             sleep(3);
             
@@ -100,13 +100,13 @@ class ExporttaskController extends Controller
         //     $post['task']=[$post['task']];
         // }
         // $first=true;
-        // foreach ($post['task'] as $backgrountask) {
-        //     $model = new backgrountask();
- 		//     $model->action=$backgrountask;
+        // foreach ($post['task'] as $backgroundtask) {
+        //     $model = new backgroundtask();
+ 		//     $model->action=$backgroundtask;
 		//     $model->params=$post['params'];
         //     $model->id_user=Yii::$app->user->identity->id;
 		//     $model->progress=0;
-		//     $model->stato=Backgrountask::STATUS_NEW;	
+		//     $model->stato=Backgroundtask::STATUS_NEW;	
 		//     $model->save();
 		//     
         //     // echo Yii::getAlias('@app/../').'yii backgroundtask/checktask';
@@ -180,7 +180,7 @@ class ExporttaskController extends Controller
      */
     public function findModel($id)
     {
-        if (($model = Backgrountask::findOne($id)) !== null) {
+        if (($model = Backgroundtask::findOne($id)) !== null) {
             return $model;
         }
 

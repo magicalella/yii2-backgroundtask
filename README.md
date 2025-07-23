@@ -10,22 +10,22 @@ Il modo migliore per installare questa estensione è tramite [composer](http://g
 Lancia
 
 ```
-php composer.phar require --prefer-dist magicalella/yii2-backgrountask "*"
+php composer.phar require --prefer-dist magicalella/yii2-backgroundtask "*"
 ```
 
 o aggiungi
 
 ```
-"magicalella/yii2-backgrountask": "*"
+"magicalella/yii2-backgroundtask": "*"
 ```
 
 nella sezione require del tuo file "composer.json".
 
 **E avvia la migrazione dei file**
 
-yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgrountask/migrations
+yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgroundtask/migrations
 
-Può essere creato manualmente. Vale a dire, la tabella `backgrountask` campi:
+Può essere creato manualmente. Vale a dire, la tabella `backgroundtask` campi:
 
 id(primaryKey, AUTO_INCREMENT);
 action(varchar(350));
@@ -45,15 +45,15 @@ scrivi
 
         'components' => [
         ...
-            'backgrountask' => [
-                'class'   => 'magicalella\backgrountask\backgrountask',
+            'backgroundtask' => [
+                'class'   => 'magicalella\backgroundtask\backgroundtask',
                 'site_realpath' => '/var/www/vhosts/miosito.com',
                 'site_root' => 'https://www.miosito.com'
             ],
         ...
         ]
 
-I file esportati verranno esportati nella cartella @uploads/backgrountask
+I file esportati verranno esportati nella cartella @uploads/backgroundtask
 
 Attivazione
 -----
@@ -63,7 +63,7 @@ Inserire in view Index:
 ----
 Per creare il task utilizzare il Widget 
 
-use magicalella\backgrountask\BackgroundTaskWidget;
+use magicalella\backgroundtask\BackgroundTaskWidget;
 <?php
     echo BackgroundTaskWidget::widget([
         'task' => 'export_csv_articoli',//action in controller console ex: export_csv_articoli
@@ -72,14 +72,14 @@ use magicalella\backgrountask\BackgroundTaskWidget;
         'button_text' => '', //text button default is Yii::t('app','download Data')
         'params' => [
             'qs' => Yii::$app->request->queryParams
-        ] //array parmas for action task in controller console BackgrounTask exemple params for query search export model
+        ] //array parmas for action task in controller console BackgroundTask exemple params for query search export model
     ]);
 ?>
 
 
 in  _protected\console\controllers 
 ----
-Copia il file src/console/BackgrountaskController.php
+Copia il file src/console/BackgroundtaskController.php
 
 IMPORTANTE:
 ----

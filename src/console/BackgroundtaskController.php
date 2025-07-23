@@ -6,9 +6,9 @@ use yii\db\Query;
 
 use Yii;
 use app\models\User;
-use magicalella\backgrountask\Backgrountask;
-use magicalella\backgrountask\BackgrountaskSearch;
-use magicalella\backgrountask\CsvFile;
+use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\BackgroundtaskSearch;
+use magicalella\backgroundtask\CsvFile;
 use yii\web\NotFoundHttpException;
 use yii\httpclient\Client;
 
@@ -18,12 +18,12 @@ use yii\httpclient\Client;
 class BackgroundtaskController extends Controller
 {
 	private $params;
-	public $basePath = '@uploads/backgrountask';
-	public $baseUrl = '@uploads/backgrountask/';
+	public $basePath = '@uploads/backgroundtask';
+	public $baseUrl = '@uploads/backgroundtask/';
 	public $file;
 	public $page = 0;
 	public $totalPage;
-	public $backgrountask;
+	public $backgroundtask;
 	public $pagesize = 100;
 	public $selfFileName;
 	public $id_agenzia;
@@ -42,10 +42,10 @@ class BackgroundtaskController extends Controller
 		$this->nosave=$nosave;
 	    $this->nolog=true; //$nolog;
 		echo("start \n");
-        if ($this->task=Backgrountask::find()->where(['stato'=>Backgrountask::STATUS_NEW])->orderBy(['id' => SORT_DESC])->one()) {
+        if ($this->task=Backgroundtask::find()->where(['stato'=>Backgroundtask::STATUS_NEW])->orderBy(['id' => SORT_DESC])->one()) {
 	        if (!$this->nosave) {
 				$this->task->progress=0;
-	    		$this->task->stato=Backgrountask::STATUS_WORKING;
+	    		$this->task->stato=Backgroundtask::STATUS_WORKING;
 				$this->task->save();
 			}
 			 if (!gc_enabled()) {
@@ -103,7 +103,7 @@ class BackgroundtaskController extends Controller
     private function finish($closefile=true,$extension='csv') {
 	    if ($closefile) $this->file->close();
 		if (!$this->nosave) {
-			$this->task->stato=Backgrountask::STATUS_DONE;
+			$this->task->stato=Backgroundtask::STATUS_DONE;
 		}
 		$this->task->output='<a href="'.Yii::$app->params['dir_exporttask'].$this->selfFileName.'.'.$extension.'" target="_blank" download >download</a>';
 		$this->task->progress=100;
@@ -115,7 +115,7 @@ class BackgroundtaskController extends Controller
 	* fine con messaggio
 	*/
 	private function finishMessage($message) {
-		$this->task->stato=Backgrountask::STATUS_DONE;
+		$this->task->stato=Backgroundtask::STATUS_DONE;
 		$this->task->output=$message.' - '.date('Y-m-d H:i');
 		$this->task->progress=100;
 		$this->task->save();
@@ -129,12 +129,12 @@ class BackgroundtaskController extends Controller
      
      public function actionReactivate($action)
      {
-         $model = Backgrountask::find()->where(['action'=>$action,'stato'=>Backgrountask::STATUS_DONE])->orderBy(['id'=>SORT_DESC])->one();
+         $model = Backgroundtask::find()->where(['action'=>$action,'stato'=>Backgroundtask::STATUS_DONE])->orderBy(['id'=>SORT_DESC])->one();
          if (!$model) {
 			echo 'no record Found '.$action;
 			return;
 		 }
-         $model->stato=Backgrountask::STATUS_NEW;	
+         $model->stato=Backgroundtask::STATUS_NEW;	
          $model->save();
          $model->exec_task();
      }

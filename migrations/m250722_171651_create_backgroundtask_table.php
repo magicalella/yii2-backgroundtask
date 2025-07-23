@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%backgrountask}}`.
+ * Handles the creation of table `{{%backgroundtask}}`.
  */
-class m250722_171651_create_backgrountask_table extends Migration
+class m250722_171651_create_backgroundtask_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -16,7 +16,7 @@ class m250722_171651_create_backgrountask_table extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%backgrountask}}', [
+        $this->createTable('{{%backgroundtask}}', [
             'id' => $this->primaryKey(),
             'action' => $this->string(350)->notNull(),
             'id_user' => $this->integer(11)->notNull(),
@@ -33,6 +33,6 @@ class m250722_171651_create_backgrountask_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%backgrountask}}');
+        $this->dropTable('{{%backgroundtask}}');
     }
 }

@@ -3,7 +3,7 @@
 * @author    Raffaella Lollini <raffaella@kattivamente.it>
 * @copyright 2023 Raffaella Lollini
 */
-namespace magicalella\backgrountask;
+namespace magicalella\backgroundtask;
 
 use Yii;
 
@@ -21,7 +21,7 @@ use Yii;
  *
  * @property User $user
  */
-class Backgrountask extends \yii\db\ActiveRecord
+class Backgroundtask extends \yii\db\ActiveRecord
 {
 	const STATUS_NEW = 0;
 	const STATUS_WORKING = 1;
@@ -36,7 +36,7 @@ class Backgrountask extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'backgrountask';
+        return 'backgroundtask';
     }
 
     /**
