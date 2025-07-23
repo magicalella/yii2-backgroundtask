@@ -1,5 +1,5 @@
 {
-    "name": "magicalella/yii2-backgrountask",
+    "name": "magicalella/yii2-backgroundtask",
     "description": "Extension for managing the background task ",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","export","bckground","task"],
@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.0"
     },
     "require-dev": {
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "magicalella\\backgrountask\\": ""
+            "magicalella\\backgroundtask\\": ""
         }
     }
 }
