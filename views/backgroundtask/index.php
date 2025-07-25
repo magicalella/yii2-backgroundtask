@@ -4,12 +4,12 @@ use yii\helpers\Html;
 use yii\bootstrap\Progress;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use magicalella\backgroundtask\models\Backgroundtask;
+use magicalella\backgroundtask\Backgroundtask;
 use yii\helpers\Url;
 use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
-/* @var $searchModel magicalella\ExporttaskSearch */
+/* @var $searchModel magicalella\BackgroundtaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Task');

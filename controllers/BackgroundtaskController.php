@@ -3,8 +3,8 @@
 namespace magicalella\backgroundtask\controllers;
 
 use Yii;
-use magicalella\backgroundtask\models\Backgroundtask;
-use magicalella\backgroundtask\models\BackgroundtaskSearch;
+use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\BackgroundtaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * TaskController implements the CRUD actions for Task model.
  */
-class ExporttaskController extends Controller
+class BackgroundtaskController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class ExporttaskController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ExporttaskSearch();
+        $searchModel = new BackgroundtaskSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
 
