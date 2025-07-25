@@ -20,12 +20,12 @@ class m250722_171651_create_backgroundtask_table extends Migration
             'id' => $this->primaryKey(),
             'action' => $this->string(350)->notNull(),
             'id_user' => $this->integer(11)->notNull(),
-            'progress' => $this->integer(2),
+            'progress' => $this->tinyInteger()->defaultValue(0),
             'params' => $this->text(),  
             'output' => $this->text(),
             'log' => $this->text(),  
-            'stato' => $this->integer(1), 
-            'date_add' =>   $this->dateTime()
+            'stato' => $this->tinyInteger()->defaultValue(0), 
+            'date_add' =>   $this->dateTime()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
     }
 
