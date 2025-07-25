@@ -46,7 +46,7 @@ scrivi
         'components' => [
         ...
             'backgroundtask' => [
-                'class'   => 'magicalella\backgroundtask\backgroundtask',
+                'class'   => 'magicalella\backgroundtask\backgroundtask\Module',
                 'site_realpath' => '/var/www/vhosts/miosito.com',
                 'site_root' => 'https://www.miosito.com'
             ],
