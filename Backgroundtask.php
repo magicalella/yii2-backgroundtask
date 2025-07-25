@@ -3,7 +3,7 @@
 * @author    Raffaella Lollini <raffaella@kattivamente.it>
 * @copyright 2023 Raffaella Lollini
 */
-namespace magicalella\backgroundtask\models;
+namespace magicalella\backgroundtask;
 
 use Yii;
 

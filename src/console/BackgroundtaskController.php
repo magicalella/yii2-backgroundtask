@@ -6,8 +6,8 @@ use yii\db\Query;
 
 use Yii;
 use app\models\User;
-use magicalella\backgroundtask\models\Backgroundtask;
-use magicalella\backgroundtask\models\BackgroundtaskSearch;
+use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\BackgroundtaskSearch;
 use magicalella\backgroundtask\CsvFile;
 use yii\web\NotFoundHttpException;
 use yii\httpclient\Client;
@@ -105,7 +105,7 @@ class BackgroundtaskController extends Controller
 		if (!$this->nosave) {
 			$this->task->stato=Backgroundtask::STATUS_DONE;
 		}
-		$this->task->output='<a href="'.Yii::$app->params['dir_exporttask'].$this->selfFileName.'.'.$extension.'" target="_blank" download >download</a>';
+		$this->task->output='<a href="'.Yii::$app->params['dir_backgroundtask'].$this->selfFileName.'.'.$extension.'" target="_blank" download >download</a>';
 		$this->task->progress=100;
 		$this->task->save();
 		echo("\n end");
