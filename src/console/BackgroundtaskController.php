@@ -620,7 +620,7 @@ class BackgroundtaskController extends Controller
         $file = new CsvFile();
 		
        $file->name = Yii::getAlias($this->basePath) .  $this->selfFileName . '.csv';
-		//$file->name = $this->exportTaskFolder . $this->selfFileName . '.'.$setensione;
+		//$file->name = $this->backgroundTaskFolder . $this->selfFileName . '.'.$setensione;
 		echo 'Salvo in: '.$file->name;
 		// exit();
 		return $file;
