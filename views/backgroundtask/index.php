@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Progress;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\models\Backgroundtask;
 use yii\helpers\Url;
 use mdm\admin\components\Helper;
 
