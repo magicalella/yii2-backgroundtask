@@ -24,7 +24,8 @@ class m250722_171651_create_backgroundtask_table extends Migration
             'params' => $this->text(),  
             'output' => $this->text(),
             'log' => $this->text(),  
-            'stato' => $this->integer(1),  
+            'stato' => $this->integer(1), 
+            'date_add' =>   $this->dateTime()
         ], $tableOptions);
     }
 
