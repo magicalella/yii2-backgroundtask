@@ -17,6 +17,8 @@ class Module extends \yii\base\Module
 	 * @inheritdoc
 	 */
 	public $defaultRoute = 'backgroundtask/index';
+	public $site_realpath;
+	public $site_root;
 
 	/**
 	 * Init module
@@ -24,5 +26,6 @@ class Module extends \yii\base\Module
 	public function init()
 	{
 		parent::init();
+		Yii::debug("Module backgroundtask init called", __METHOD__);
 	}
 }
