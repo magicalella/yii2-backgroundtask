@@ -8,6 +8,7 @@ use magicalella\backgroundtask\BackgroundtaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -20,11 +21,21 @@ class BackgroundtaskController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','view', 'createtask', 'update', 'delete', 'ajaxprogress', 'reload'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','view', 'createtask', 'update', 'delete', 'ajaxprogress', 'reload'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
-                    'add' => ['POST'],
+                    'delete' => ['POST']
                 ],
             ],
         ];
