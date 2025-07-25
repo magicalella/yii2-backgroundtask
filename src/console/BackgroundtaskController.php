@@ -6,8 +6,8 @@ use yii\db\Query;
 
 use Yii;
 use app\models\User;
-use magicalella\backgroundtask\Backgroundtask;
-use magicalella\backgroundtask\BackgroundtaskSearch;
+use magicalella\backgroundtask\models\Backgroundtask;
+use magicalella\backgroundtask\models\BackgroundtaskSearch;
 use magicalella\backgroundtask\CsvFile;
 use yii\web\NotFoundHttpException;
 use yii\httpclient\Client;

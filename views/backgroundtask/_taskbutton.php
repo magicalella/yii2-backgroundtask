@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\models\Backgroundtask;
 
 /* @var $this yii\web\View */
 /* @var $model magicalella\backgroundtask\Backgroundtask */

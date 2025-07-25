@@ -3,12 +3,12 @@
 * @author    Raffaella Lollini <raffaella@kattivamente.it>
 * @copyright 2023 Raffaella Lollini
 */
-namespace magicalella\backgroundtask;
+namespace magicalella\backgroundtask\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\models\Backgroundtask;
 
 /**
  * ExporttaskSearch represents the model behind the search form of `common\models\backgroundtask`.

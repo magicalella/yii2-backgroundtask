@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace magicalella\backgroundtask\controllers;
 
 use Yii;
-use magicalella\backgroundtask\backgroundtask;
-use magicalella\backgroundtask\ExporttaskSearch;
+use magicalella\backgroundtask\models\Backgroundtask;
+use magicalella\backgroundtask\models\BackgroundtaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

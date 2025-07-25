@@ -11,7 +11,7 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use magicalella\backgroundtask\Backgroundtask;
+use magicalella\backgroundtask\models\Backgroundtask;
 
 ?>
 <div class="backgroundtask">
