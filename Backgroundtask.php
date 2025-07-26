@@ -6,6 +6,7 @@
 namespace magicalella\backgroundtask;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "task".
@@ -78,7 +79,7 @@ class Backgroundtask extends \yii\db\ActiveRecord
         // && (!Yii::$app->user->can('sowAllTask')) studiare come creare il ruolo
 		if ((is_a(Yii::$app,'yii\web\Application'))) {
 			return parent::find()->andFilterWhere([
-	            'task.id_user' => Yii::$app->user->identity->id,
+	            'backgroundtask.id_user' => Yii::$app->user->identity->id,
 	        ]);
         }
         

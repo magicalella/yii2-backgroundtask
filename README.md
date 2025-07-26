@@ -10,7 +10,7 @@ Il modo migliore per installare questa estensione è tramite [composer](http://g
 Lancia
 
 ```
-php composer.phar require --prefer-dist magicalella/yii2-backgroundtask "*"
+composer require --prefer-dist magicalella/yii2-backgroundtask "*"
 ```
 
 o aggiungi
@@ -23,7 +23,7 @@ nella sezione require del tuo file "composer.json".
 
 **E avvia la migrazione dei file**
 
-yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgroundtask/migrations
+yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgroundtask/migrations --interactive=0
 
 Può essere creato manualmente. Vale a dire, la tabella `backgroundtask` campi:
 
