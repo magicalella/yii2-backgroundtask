@@ -20,13 +20,13 @@ class BackgroundtaskController extends Controller
 	private $params;
 	public $basePath = '@uploads/backgroundtask';
 	public $baseUrl = '@uploads/backgroundtask/';
+	public $task = [];
 	public $file;
 	public $page = 0;
 	public $totalPage;
 	public $backgroundtask;
 	public $pagesize = 100;
 	public $selfFileName;
-	public $id_agenzia;
 	public $nosave;
 	public $nolog;
 	public $tempTable;
@@ -120,6 +120,29 @@ class BackgroundtaskController extends Controller
 		$this->task->progress=100;
 		$this->task->save();
 		echo("\n end");
+	}
+	
+	public function endPage() {
+		gc_collect_cycles(); // svuota la memoria
+		echo('| Pag.'.$this->page.' Mem:'.memory_get_usage().' ');
+		// aggiorna Task progress;
+		$this->page++;
+		$this->task->progress=floor($this->page*100/$this->totalPage);
+		$this->task->save();
+	}
+	
+	public function newCsvFile($nomefile,$setensione='csv')
+	{
+		$this->selfFileName = $nomefile.'-' . date('Ymd') . '-'.time();
+	
+		/* @var $file CsvFile */
+		$file = new CsvFile();
+		
+	   $file->name = Yii::getAlias($this->basePath) .  $this->selfFileName . '.csv';
+		//$file->name = $this->backgroundTaskFolder . $this->selfFileName . '.'.$setensione;
+		echo 'Salvo in: '.$file->name;
+		// exit();
+		return $file;
 	}
 
     /**
@@ -380,249 +403,4 @@ class BackgroundtaskController extends Controller
 		$this->finishMessage('Done');
 	}
 	*/
-
-	/*
-	* Importa file CSV di cfSoci
-	*/
-	private function _import_cf() {
-
-		$estensioni = ['csv'];
-		$inputFile = Yii::$app->params['path_upload'].'cfSoci.csv';
-
-		if(file_exists($inputFile)){
-			echo 'File trovato!';
-			//$file = $inputFile;
-			$handle = fopen($inputFile, "r");
-			list($linecount,$foo) = explode(" ", exec('wc -l ' . escapeshellarg($inputFile)));
-			$lines = 0;
-			$array_chiavi = [];
-			
-			while (($fileop = fgetcsv($handle, 1000, ";")) !== false){
-				if($lines==0){
-					foreach($fileop as $key=>$value){
-						$root_value = str_replace(" ","", strtolower(preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $value)));
-						$subindex = 1;
-						$value = $root_value;
-						while (array_key_exists($value, $array_chiavi)) {
-							$value = $root_value .'-'. $subindex;
-							$subindex++;
-						}
-
-						$array_chiavi[$value] = $key;
-					}
-				} else { // lettura record CF
-					$cf_key = '';
-					if (!$cf_key) $cf_key = '';
-					
-					if ($cf_key) {
-						$cf=CfSoci::find()->where(['cf1'=>$cf_key])->one();
-						if (!$cf) $cf = new CfSoci();
-						
-						$cf->cag= $fileop[$array_chiavi['codiceanagrafegenerale']];
-						// togli spazi all'inizio e alla fine e gli zeri iniziali
-						$cf->cf1 = $cf_key;
-						$cf->cf2 = '';
-						$cf->socio = ($fileop[$array_chiavi['socio']]=='S')?1:0;
-						//if (!$cf->cf1) $cf->cf1 = $cf->cf2;
-						
-						if (!$cf->save()) {
-							echo('Errore salvataggio cfSoci: '.print_r($cf,true));
-							print_r($fileop);
-							break;
-						}
-					}
-				}
-				$this->task->progress=floor($lines*100/$linecount);
-	    		$this->task->save();
-				$lines ++;
-			} // while
-			$this->finishMessage('File importato con successo');
-			unlink($inputFile);
-
-		}else{
-			echo 'NESSUN FILE TROVATO';
-		}
-
-	}
-
-	private function _check_users() {
-		echo 'Controllo utenti 1 ';
-		// controlla che la tabella CFSoci sia popolata
-		if (CfSoci::find()->count()<1000) {
-			$this->finishMessage('ERRORE: Database CF Soci vuoto');
-			return false;
-		}
-		// Fai chiamata API con autenticazione Bearer
-		echo('Chiamata API:'.Yii::$app->params['server_endpoint']);
-		$client = new Client(['baseUrl' => Yii::$app->params['server_endpoint']]);
-		$request = $client->createRequest()
-			->setMethod('GET')
-			->setUrl('get-soci')
-			->setFormat(Client::FORMAT_JSON)
-			->setHeaders([
-				'Authorization' => 'Bearer '.Yii::$app->params['server_token'],
-			])
-			->setData([]);
-	
-		$response = $request->send();
-		if (($response->isOk) && ($response->data['status']=='success')) {
-			print_r($response->data);
-			$this->initProgess(count($response->data['data']));
-			$elaborati=0;
-			
-			// loop utenti piattaforma
-			foreach($response->data['data'] as $utente_piattaforma) {
-				$data=false;
-				$utente_piattaforma = (object)$utente_piattaforma;
-
-				// se il cf contiene CFSoci::SKIP_CHECK salta il controllo
-				if (strpos($utente_piattaforma->cf,CfSoci::SKIP_CHECK)!==false) {
-					echo('Utente saltato: '.' id:'.$utente_piattaforma->id.' - '.$utente_piattaforma->cf."\n   ");
-					continue;
-				}
-
-				$cf='';
-				$utente_db_banca = CfSoci::find()->where(['or',['cf1'=>$cf],['cf2'=>$cf]])->one();
-
-				if ($utente_db_banca) { // utente trovato
-					echo('Utente trovato: '.' id:'.$utente_piattaforma->id.' - '.$utente_piattaforma->cf. ' - '.$utente_db_banca->cag .' - '.$utente_db_banca->socio."\n   ");
-					if (($utente_db_banca->socio==1) && ($utente_piattaforma->utentetipo!=CfSoci::TIPO_SOCIO)) {
-						$data = ['id'=>$utente_piattaforma->id,'tipo'=>CfSoci::TIPO_SOCIO, 'cag'=>$utente_db_banca->cag];
-					} elseif (($utente_db_banca->socio==0) && ($utente_piattaforma->utentetipo!=CfSoci::TIPO_CLIENTE)) {
-						$data = ['id'=>$utente_piattaforma->id,'tipo'=>CfSoci::TIPO_CLIENTE, 'cag'=>$utente_db_banca->cag];
-					}	
-
-				} else { // utente non trovato
-					echo('Utente non trovato: '.$cf.' id:'.$utente_piattaforma->id."\n   ");
-					if ($utente_piattaforma->utentetipo!=CfSoci::TIPO_NONCLENTE) {
-						$data = ['id'=>$utente_piattaforma->id,'tipo'=>CfSoci::TIPO_NONCLENTE, 'cag'=>null];
-					}
-				}
-
-				if ($data) {
-					//echo('Utente aggiornato x: '.$utente_piattaforma->id."\n   ");
-
-					$request = $client->createRequest()
-						->setMethod('POST')
-						->setUrl('aggiorna-stato-socio')
-						//->setFormat(Client::FORMAT_JSON)
-						->setHeaders([
-							'Authorization' => 'Bearer '.Yii::$app->params['server_token'],
-						])
-						->setData($data);
-					$response = $request->send();
-					if (($response->isOk) && ($response->data['status']=='success')) {
-						echo('Utente aggiornato: '.$utente_piattaforma->id."\n   ");
-					} else {
-						echo('Errore aggiornamento utente: '.$utente_piattaforma->id."\n   ");
-						print_r($response->data);
-					}
-				}
-				$this->updateProgress($elaborati++);
-			}
-			$this->finishMessage('Utenti controllati: '.$elaborati);
-		}
-
-	}
-
-	private function _check_rivendite() {
-		echo 'Controllo rivendite';
-		// controlla che la tabella CFSoci sia popolata
-		if (CfSoci::find()->count()<1000) {
-			$this->finishMessage('ERRORE: Database CF Soci vuoto');
-			return false;
-		}
-		// Fai chiamata API con autenticazione Bearer
-		echo('Chiamata API:'.Yii::$app->params['server_endpoint']);
-		$client = new Client(['baseUrl' => Yii::$app->params['server_endpoint']]);
-		$request = $client->createRequest()
-			->setMethod('GET')
-			->setUrl('get-rivenditori')
-			->setFormat(Client::FORMAT_JSON)
-			->setHeaders([
-				'Authorization' => 'Bearer '.Yii::$app->params['server_token'],
-			])
-			->setData([]);
-	
-		$response = $request->send();
-		if (($response->isOk) && ($response->data['status']=='success')) {
-			print_r($response->data);
-			$this->initProgess(count($response->data['data']));
-			$elaborati=0;
-			
-			// loop utenti piattaforma
-			foreach($response->data['data'] as $utente_piattaforma) {
-				$data=false;
-				$utente_piattaforma = (object)$utente_piattaforma;
-
-				// se il cf contiene CFSoci::SKIP_CHECK salta il controllo
-				if (strpos($utente_piattaforma->cf,CfSoci::SKIP_CHECK)!==false) {
-					echo('Utente saltato: '.' id:'.$utente_piattaforma->id.' - '.$utente_piattaforma->cf."\n   ");
-					continue;
-				}
-
-				$cf='';
-				$utente_db_banca = CfSoci::find()->where(['or',['cf1'=>$cf],['cf2'=>$cf]])->one();
-
-				if ($utente_db_banca) { // utente trovato
-					echo('Utente trovato: '.' id:'.$utente_piattaforma->id.' - '.$utente_piattaforma->cf. ' - '.$utente_db_banca->cag ."\n   ");
-					if ((!$utente_piattaforma->cag)) {
-						$data = ['id'=>$utente_piattaforma->id,'tipo'=>CfSoci::TIPO_CLIENTE, 'cag'=>$utente_db_banca->cag];
-					}	
-
-				} else { // utente non trovato
-					echo('Utente non trovato: '.$cf.' id:'.$utente_piattaforma->id."\n   ");
-					if (($utente_piattaforma->cag) || ($utente_piattaforma->utentetipo==CfSoci::TIPO_NEW)) {
-						$data = ['id'=>$utente_piattaforma->id,'tipo'=>CfSoci::TIPO_NONCLENTE, 'cag'=>null];
-					}
-				}
-
-				if ($data) {
-					echo('Rivendita aggiornata: '.$utente_piattaforma->id."\n   ");
-					
-					$request = $client->createRequest()
-						->setMethod('POST')
-						->setUrl('aggiorna-stato-rivenditore')
-						//->setFormat(Client::FORMAT_JSON)
-						->setHeaders([
-							'Authorization' => 'Bearer '.Yii::$app->params['server_token'],
-						])
-						->setData($data);
-					$response = $request->send();
-					if (($response->isOk) && ($response->data['status']=='success')) {
-						echo('Rivendita aggiornata: '.$utente_piattaforma->id."\n   ");
-					} else {
-						echo('Errore aggiornamento rivendita: '.$utente_piattaforma->id."\n   ");
-						print_r($response->data);
-					}
-				}
-				$this->updateProgress($elaborati++);
-			}
-			$this->finishMessage('Rivendite controllate: '.$elaborati);
-		}
-
-	}
-
-    public function endPage() {
-	    gc_collect_cycles(); // svuota la memoria
-		echo('| Pag.'.$this->page.' Mem:'.memory_get_usage().' ');
-	    // aggiorna Task progress;
-	    $this->page++;
-	    $this->task->progress=floor($this->page*100/$this->totalPage);
-	    $this->task->save();
-    }
-
-    public function newCsvFile($nomefile,$setensione='csv')
-    {
-        $this->selfFileName = $nomefile.'-' . date('Ymd') . '-'.time();
-
-        /* @var $file CsvFile */
-        $file = new CsvFile();
-		
-       $file->name = Yii::getAlias($this->basePath) .  $this->selfFileName . '.csv';
-		//$file->name = $this->backgroundTaskFolder . $this->selfFileName . '.'.$setensione;
-		echo 'Salvo in: '.$file->name;
-		// exit();
-		return $file;
-    }
 }
