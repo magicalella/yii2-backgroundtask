@@ -1,6 +1,6 @@
 <?php
 
-namespace app\console\controllers;
+namespace console\controllers;
 use yii\console\Controller;
 use yii\db\Query;
 
