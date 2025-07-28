@@ -88,7 +88,7 @@ class Backgroundtask extends \yii\db\ActiveRecord
 
     public function exec_task() {
         $site_realpath =  Yii::$app->getModule('backgroundtask')->site_realpath;
-        $command='nohup '.Yii::$app->params['php'].' -d memory_limit=2048M '.$site_realpath.'/_protected/yii backgroundtask/checktask > '.$site_realpath.'/log_backgroundtask/backgroundtasklog_'.$this->id.'.txt 2>'.$site_realpath.'/log_backgroundtask/backgroundtasklog_error_'.$this->id.'.txt &';
+        $command='nohup '.Yii::$app->params['php'].' -d memory_limit=2048M '.$site_realpath.'/_protected/yii backgroundtask-console/checktask > '.$site_realpath.'/log_backgroundtask/backgroundtasklog_'.$this->id.'.txt 2>'.$site_realpath.'/log_backgroundtask/backgroundtasklog_error_'.$this->id.'.txt &';
         shell_exec($command);
         /*echo $command;
         exit (0);*/
