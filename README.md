@@ -63,13 +63,13 @@ Inserire in view Index:
 ----
 Per creare il task utilizzare il Widget 
 
-use magicalella\backgroundtask\BackgroundTaskWidget;
+magicalella\backgroundtask\widgets\BackgroundTaskWidget;
 <?php
     echo BackgroundTaskWidget::widget([
         'task' => 'export_csv_articoli',//action in controller console ex: export_csv_articoli
-        'class' => '', //class button default is 'btn btn-success'
-        'title' => '', //title button default is Yii::t('app','download Data')
-        'button_text' => '', //text button default is Yii::t('app','download Data')
+        'button_class' => '', //class button default is 'btn btn-success'
+        'title' => '', //title button default is Yii::t('app','Add Task')
+        'button_text' => '', //text button default is Yii::t('app','Add Task')
         'params' => [
             'qs' => Yii::$app->request->queryParams
         ] //array parmas for action task in controller console BackgroundTask exemple params for query search export model
