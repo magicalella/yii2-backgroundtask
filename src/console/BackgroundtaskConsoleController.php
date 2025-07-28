@@ -1,6 +1,6 @@
 <?php
 
-namespace app\console\controllers;
+namespace console\controllers;
 use yii\console\Controller;
 use yii\db\Query;
 
@@ -15,7 +15,7 @@ use yii\httpclient\Client;
 /**
  * TaskController implements the CRUD actions for Task model.
  */
-class BackgroundtaskController extends Controller
+class BackgroundtaskConsoleController extends Controller
 {
 	private $params;
 	public $basePath = '@uploads/backgroundtask';

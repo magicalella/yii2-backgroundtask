@@ -8,14 +8,16 @@
 * @var string $button_text
 */
 
-use yii\helpers\ArrayHelper;
+
 use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use magicalella\backgroundtask\Backgroundtask;
-
+$model = new Backgroundtask();
 ?>
 <div class="backgroundtask">
-<?php $form = ActiveForm::begin(['action' => ['task/createtask'],
+<?php $form = ActiveForm::begin(['action' => ['backgroundtask/backgroundtask/createtask'],
                                 'options' => ['method' => 'post'],
                                 'fieldConfig' => [
                                     'template' => "{input}",
@@ -24,7 +26,7 @@ use magicalella\backgroundtask\Backgroundtask;
                                     ]
 ]]); ?>
 
-<?= $form->field($model, 'task')->hiddenInput(['value'=> $task])->label(false);?>
+<?= $form->field($model, 'action')->hiddenInput(['value'=> $task])->label(false);?>
 
 <?= $form->field($model, 'params')->hiddenInput(['value'=> json_encode($params)])->label(false); ?>
 
