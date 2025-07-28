@@ -63,8 +63,8 @@ class CsvFile extends BaseObject
     /**
      * @var int the count of entries written into the file.
      */
-    //public $entriesCount = 0;
-    public $entriesCount = false;
+    public $entriesCount = 0;
+    
     /**
      * @var bool|string whether to write Byte Order Mark (BOM) at the beginning of the file.
      * BOM might be necessary for the unicode-encoded file to be correctly displayed at some programs.

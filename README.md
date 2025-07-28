@@ -85,4 +85,11 @@ IMPORTANTE:
 ----
 Il tuo server deve permettere il comando shell_exec
 
+MANUTENZIONE:
+----
+Aggiungi questa chiamata al tuo pannello Crontask per mantenere pulita la cartella Export che col tempo andrebbe a riempirsi
+Decidi tu la schedulazione in base alla quantità di file creati
 
+php _protected/yii backgroundtask-console/clean-export
+
+Andrà ad eliminare i file con data  di creazione più vecchia di 3 mesi

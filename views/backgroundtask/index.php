@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <script>
 	function updateProgress(id) {
 		$.ajax({
-		    url : '<?= Yii::$app->request->baseUrl. '/task/ajaxprogress' ?>',
+		    url : '<?= Yii::$app->request->baseUrl. '/backgroundtask/backgroundtask/ajaxprogress' ?>',
 		    type: "GET",
 		    data : 'id='+id,
 		    success:function(result){
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
           'nullDisplay' => '<span class="not-set"></span>',
         ],
         'panel' => [
-          'heading' => '<h3 class="panel-title"><i class="fas fa-tasks"></i> Task</h3>',
+          'heading' => '<h3 class="panel-title"><i class="fas fa-tasks"></i> BackgroundTask</h3>',
           'type' => 'success',
           'beforeOptions'=>['class'=>'grid_panel_remove'],
         ],
@@ -98,8 +98,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' =>'log',
 				'format'=>'raw',
 				'value' => function ($model){
-					return '<a target="_blank" href="/log_task/tasklog_'.$model->id.'.txt" >log</a> - <a target="_blank" href="/log_task/tasklog_error_'.$model->id.'.txt" >errors</a>';
+					return '<a target="_blank" href="/log_task/backgroundtasklog_'.$model->id.'.txt" >log</a> - <a target="_blank" href="/log_task/backgroundtasklog_error_'.$model->id.'.txt" >errors</a>';
 				},
+			],
+			[
+				'attribute' => 'date_add'
 			],
             ['class' => 'kartik\grid\ActionColumn',
 				'template' => '{reload} {delete} {update}',
