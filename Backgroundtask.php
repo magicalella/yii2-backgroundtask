@@ -86,6 +86,26 @@ class Backgroundtask extends \yii\db\ActiveRecord
 
     }
 
+    /**
+    * Crea task
+    * $task nome del task da eseguire 
+    * $params parametri da passare al task
+    * se import : percorso_file
+    * se export : qs ->ovvero query string Yii::$app->request->queryParams         
+     */
+    public static function addTask($task,$params){
+        $model = new Backgroundtask();
+        $model->action = $task;
+        $model->params = json_encode($params);
+        $model->id_user = Yii::$app->user->identity->id;
+        $model->progress = 0;
+        $model->stato = self::STATUS_NEW;	
+        if($model->save()){
+            sleep(3);
+            $model->exec_task();
+        }
+    }
+
     public function exec_task() {
         $site_realpath =  Yii::$app->getModule('backgroundtask')->site_realpath;
         $command='nohup '.Yii::$app->params['php'].' -d memory_limit=2048M '.$site_realpath.'/_protected/yii backgroundtask-console/checktask > '.$site_realpath.'/log_task/backgroundtasklog_'.$this->id.'.txt 2>'.$site_realpath.'/log_task/backgroundtasklog_error_'.$this->id.'.txt &';
