@@ -79,6 +79,8 @@ class BackgroundtaskController extends Controller
     public function actionReload($id)
     {
         $model = $this->findModel($id);
+        $model->progress = 0;
+        $model->output = '';
 		$model->stato=Backgroundtask::STATUS_NEW;	
 		$model->save();
         $model->exec_task();
@@ -94,7 +96,7 @@ class BackgroundtaskController extends Controller
     public function actionCreatetask()
     {
 		$post=Yii::$app->request->post();
-        $model = new backgroundtask();
+        $model = new Backgroundtask();
         if ($model->load(Yii::$app->request->post())){
             $model->id_user = Yii::$app->user->identity->id;
             $model->progress = 0;
