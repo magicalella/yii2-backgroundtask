@@ -27,14 +27,14 @@ yii migrate/up --migrationPath=@vendor/magicalella/yii2-backgroundtask/migration
 
 Può essere creato manualmente. Vale a dire, la tabella `backgroundtask` campi:
 
-id(primaryKey, AUTO_INCREMENT);
-action(varchar(350));
-id_user(int(11));
-progress(int(2));
-params(text);
-output(text);
-log(text);
-stato(int(1));
+        id(primaryKey, AUTO_INCREMENT);
+        action(varchar(350));
+        id_user(int(11));
+        progress(int(2));
+        params(text);
+        output(text);
+        log(text);
+        stato(int(1));
 
 Installazione
 -----
