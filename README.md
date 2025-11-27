@@ -81,6 +81,22 @@ in  _protected\console\controllers
 ----
 Copia il file src/console/BackgroundtaskController.php
 
+OVERRIDE VIEWS
+-----
+Se vuoi fare l'override dell view puoi farlo impostando il percorso in cui metterai gli override nel file di _protected/backend/config/main.php
+es:
+'components' => [
+    'view' => [
+        'theme' => [
+            'pathMap' => [
+                '@app/views' => '@webroot/themes/loyalty3.0/views',
+                '@vendor/magicalella/yii2-backgroundtask/views' => '@app/views',//file nella cartella _protected/backend/views
+            ],
+            'baseUrl' => '@web/themes/loyalty3.0',
+        ],
+    ],
+]
+
 IMPORTANTE:
 ----
 Il tuo server deve permettere il comando shell_exec
