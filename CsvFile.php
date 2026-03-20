@@ -183,10 +183,11 @@ class CsvFile extends BaseObject
      */
     protected function encodeValue($value)
     {
-	    if (is_numeric($value))
-		    $value = number_format((float)$value,4,',','');
-	    else 
-        	$value = (string)$value;
+	    if (is_numeric($value) && strpos(strval($value), '.') !== false){
+          $value = number_format($value,4,',','');
+        }else{
+            $value = (string)$value;
+        }
 
         if (empty($this->enclosure)) {
             return $value;
