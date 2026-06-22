@@ -112,4 +112,4 @@ Decidi tu la schedulazione in base alla quantità di file creati
 
 php _protected/yii backgroundtask-console/clean-export
 
-Andrà ad eliminare i file con data  di creazione più vecchia di 3 mesi
+Andrà ad eliminare gli export , compresi i file, con data  di creazione più vecchia di 6 mesi

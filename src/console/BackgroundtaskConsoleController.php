@@ -161,6 +161,42 @@ class BackgroundtaskConsoleController extends Controller
          $model->save();
          $model->exec_task();
      }
+	 
+	/**
+	* php _protected/yii backgroundtask-console/clean-export
+	* elimina file della cartella export più vecchi di 3 mesi e export dal db
+	*/
+	public function actionCleanExport(){
+		//Yii::$app->getModule('backgroundtask')->site_realpath.Yii::getAlias($this->basePath)
+		$basePath = Yii::$app->getModule('backgroundtask')->site_realpath.Yii::getAlias($this->basePath);
+		
+		$today = Yii::$app->formatter->asDatetime('now','php:Y-m-d H:i:s');
+		$datemax = strtotime("-6 months", strtotime($today));
+		$elimino = '';
+		echo 'DATA MAX: '.Yii::$app->formatter->asDatetime($datemax);
+		$files = array_diff(scandir($basePath), array('.', '..'));
+		
+		if(!empty($files)){
+			foreach($files as $file){
+				$filePath = $basePath.$file;
+				$data_file =  filemtime($filePath).' ';
+				if($data_file <= $datemax){
+					$elimino .= 'eliminio '.$file.' data: '.$data_file.' ';
+					unlink($filePath);
+				}
+			}
+			Yii::warning($elimino, __METHOD__);
+		}else{
+			Yii::warning('Nessun file da eliminare', __METHOD__);
+		}
+		
+		// Pulizia record dal db più vecchi di 6 mesi
+		$data = strtotime('- 6 months');
+		$data_old = Yii::$app->formatter->asDatetime($data, 'php:Y-m-d H:i:s');
+		$deleted = Backgroundtask::deleteAll(['<', 'date_add', $data_old]);
+		Yii::info("Clean Backgroundtask: eliminati $deleted record più vecchi di $data_old", __METHOD__);
+		echo "| Clean Backgroundtask: eliminati $deleted record";
+	}
 	
 	private function _export_csv_articoli() {
 		$this->params->qs=(array) $this->params->qs;
