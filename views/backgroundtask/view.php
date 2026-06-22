@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'progress',
             'output:ntext',
             'log:ntext',
+            'date_add:datetime',
         ],
     ]) ?>
 

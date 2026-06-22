@@ -22,7 +22,7 @@ class BackgroundtaskSearch extends Backgroundtask
     {
         return [
             [['id', 'stato', 'id_user', 'progress'], 'integer'],
-            [['action', 'params', 'output', 'log'], 'safe'],
+            [['action', 'params', 'output', 'log', 'date_add'], 'safe'],
         ];
     }
 
@@ -72,7 +72,8 @@ class BackgroundtaskSearch extends Backgroundtask
         $query->andFilterWhere(['like', 'action', $this->action])
             ->andFilterWhere(['like', 'params', $this->params])
             ->andFilterWhere(['like', 'output', $this->output])
-            ->andFilterWhere(['like', 'log', $this->log]);
+            ->andFilterWhere(['like', 'log', $this->log])
+            ->andFilterWhere(['like', 'date_add', $this->date_add]);
 
         return $dataProvider;
     }

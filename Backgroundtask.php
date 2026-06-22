@@ -18,6 +18,7 @@ use common\models\User;
  * @property int $progress
  * @property string $output
  * @property string $log
+ * @property string $date_add
  *
  * @property User $user
  */
@@ -48,6 +49,7 @@ class Backgroundtask extends \yii\db\ActiveRecord
             [['action', 'id_user'], 'required'],
             [['stato', 'id_user', 'progress'], 'integer'],
             [['params', 'output', 'log'], 'string'],
+            [['date_add'], 'safe'],
             [['action'], 'string', 'max' => 50],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -67,6 +69,7 @@ class Backgroundtask extends \yii\db\ActiveRecord
             'progress' => Yii::t('app', 'Progress'),
             'output' => Yii::t('app', 'Output'),
             'log' => Yii::t('app', 'Log'),
+            'date_add' => Yii::t('app', 'Data Creazione'),
         ];
     }
     
